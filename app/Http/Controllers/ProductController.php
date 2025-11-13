@@ -11,7 +11,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -19,7 +19,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
