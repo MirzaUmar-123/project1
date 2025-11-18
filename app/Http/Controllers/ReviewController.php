@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Review;
 
 class ReviewController extends Controller
 {
@@ -59,6 +60,8 @@ class ReviewController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $review = Review::where('id',$id)->firstorfail();
+        if($review){
     }
+}
 }

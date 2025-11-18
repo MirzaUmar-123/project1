@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 
 class Wishlist extends Model
@@ -10,4 +11,5 @@ class Wishlist extends Model
     'user_id',
     'product_id',
 ];
+protected 
 }

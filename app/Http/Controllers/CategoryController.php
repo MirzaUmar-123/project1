@@ -27,7 +27,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+    'name' => 'required|string|max:255',
+    'slug' => 'required|string|max:255|unique:categories,slug',
+    'description' => 'nullable|string|',
+    'status' => 'required|boolean',
+    'image' => 'nullable|string|max:255',
+]);
     }
 
     /**

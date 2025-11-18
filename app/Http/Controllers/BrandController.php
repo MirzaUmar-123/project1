@@ -12,7 +12,7 @@ class BrandController extends Controller
     public function index()
     {
         //
-    } 
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -27,7 +27,10 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+        'name' => 'required|string|max:255|min:10',
+        'slug' => 'required|string|max:255|unique:products,slug',
+        ]);
     }
 
     /**
