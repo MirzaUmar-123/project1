@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Shipment;
 
 class ShipmentController extends Controller
 {
@@ -27,7 +28,14 @@ class ShipmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+    'order_id' => 'required|integer|exists:orders,id',
+    'tracking_number' => 'required|string|max:255|unique:shipments,tracking_number',
+    'carrier' => 'required|string|max:255',
+    'status' => 'required|in:pending,shipped,delivered',
+    'shipped_at' => 'nullable|date',
+    'delivered_at' => 'nullable|date|after_or_equal:shipped_at',
+]);
     }
 
     /**
@@ -59,6 +67,13 @@ class ShipmentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = Shipment::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Shipment deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Shipment not found.'], 404);
+    }
     }
 }

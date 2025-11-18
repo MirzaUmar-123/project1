@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Cart;
 
 class CartController extends Controller
 {
@@ -63,6 +64,13 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = Cart::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Cart deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Cart not found.'], 404);
+    }
     }
 }

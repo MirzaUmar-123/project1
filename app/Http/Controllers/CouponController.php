@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Coupon;
 
 class CouponController extends Controller
 {
@@ -27,7 +28,15 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+    'code' => 'required|string|max:255|unique:coupons,code',
+    'discount_amount' => 'required|numeric|min:0',
+    'description' => 'nullable|string',
+    'expiry_date' => 'nullable|date|after_or_equal:today',
+    'usage_limit' => 'nullable|integer|min:1',
+    'min_order_amount' => 'required|integer|min:0',
+    'is_active' => 'required|boolean',
+]);
     }
 
     /**
@@ -59,6 +68,13 @@ class CouponController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = Coupon::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Coupon deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Coupon not found.'], 404);
+    }
     }
 }

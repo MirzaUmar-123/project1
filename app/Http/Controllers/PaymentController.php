@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Payment;
 
 class PaymentController extends Controller
 {
@@ -27,7 +28,15 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+    'user_id' => 'required|integer|exists:users,id',
+    'order_number' => 'required|string|max:255|unique:orders,order_number',
+    'status' => 'required|string|in:pending,paid,shipped,delivered,cancelled',
+    'total_amount' => 'required|numeric|min:0',
+    'payment_method' => 'required|string|max:255',
+    'shipping_address' => 'required|string',
+    'billing_address' => 'required|string',
+]);
     }
 
     /**
@@ -59,6 +68,13 @@ class PaymentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = Payment::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Payment deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Payment not found.'], 404);
+    }
     }
 }

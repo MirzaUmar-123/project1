@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -65,6 +66,13 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = Category::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Category deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Category not found.'], 404);
+    }
     }
 }

@@ -28,7 +28,15 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+    'user_id' => 'required|integer|exists:users,id',
+    'order_number' => 'required|string|max:255|unique:orders,order_number',
+    'status' => 'required|in:pending,paid,shipped,delivered,cancelled',
+    'total_amount' => 'required|numeric|min:0',
+    'payment_method' => 'required|string|max:255',
+    'shipping_address' => 'required|string',
+    'billing_address' => 'required|string',
+]);
     }
 
     /**
@@ -60,8 +68,13 @@ class ReviewController extends Controller
      */
     public function destroy(string $id)
     {
-        $review = Review::where('id',$id)->firstorfail();
-        if($review){
+    $result = Review::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Review deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Review not found.'], 404);
     }
 }
 }

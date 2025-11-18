@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Wishlist;
 
 class WishlistController extends Controller
 {
@@ -27,7 +28,10 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+    'user_id' => 'required|integer|exists:users,id',
+    'product_id' => 'required|integer|exists:products,id',
+]);
     }
 
     /**
@@ -59,6 +63,13 @@ class WishlistController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = Wishlist::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Wishlist deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Wishlist not found.'], 404);
+    }
     }
 }

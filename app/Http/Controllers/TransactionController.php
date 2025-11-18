@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Transaction;
 
 class TransactionController extends Controller
 {
@@ -27,7 +28,15 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+    'user_id' => 'required|integer|exists:users,id',
+    'order_id' => 'required|integer|exists:orders,id',
+    'amount' => 'required|numeric|min:0',
+    'type' => 'required|in:charge,refund,payout',
+    'gateway' => 'required|string|max:255',
+    'reference' => 'required|string|max:255|unique:transactions,reference',
+    'status' => 'required|in:pending,completed,failed',
+]);
     }
 
     /**
@@ -59,6 +68,13 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = Transaction::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Transaction deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Transaction not found.'], 404);
+    }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Brand;
 
 class BrandController extends Controller
 {
@@ -62,6 +63,13 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $result = Brand::where('id', $id)->firstorfail();
+        if ($result) {
+            $result->delete();
+            return response()->json(['message' => 'Brand deleted successfully.'], 200);
+        }
+        else {
+            return response()->json(['message' => 'Brand not found.'], 404);
+    }
     }
 }
