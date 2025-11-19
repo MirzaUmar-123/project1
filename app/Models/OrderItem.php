@@ -13,4 +13,12 @@ class OrderItem extends Model
     'quantity',
     'total',
 ];
+    protected function casts(): array
+    {
+        return [
+            'price' => 'decimal:2',
+            'quantity' => 'integer',
+            'total' => 'decimal:2',
+        ];
+    }
 }

@@ -15,4 +15,12 @@ class Order extends Model
     'shipping_address',
     'billing_address'
     ];
+    protected function casts(): array
+    {
+        return [
+            'total_amount' => 'decimal:2',
+            'shipping_address' => 'array',
+            'billing_address' => 'array',
+        ];
+    }
 }

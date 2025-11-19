@@ -15,4 +15,10 @@ class Transaction extends Model
 'reference', // gateway reference
 'status',
 ];
+    protected function casts(): array
+    {
+        return [
+            'amount' => 'decimal:2',
+        ];
+    }
 }

@@ -15,4 +15,14 @@ class Coupon extends Model
 'min_order_amount',
 'is_active',
 ];
+    protected function casts(): array
+    {
+        return [
+            'discount_amount' => 'decimal:2',
+            'expiry_date' => 'datetime',
+            'usage_limit' => 'integer',
+            'min_order_amount' => 'decimal:2',
+            'is_active' => 'boolean',
+        ];
+    }
 }

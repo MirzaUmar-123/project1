@@ -13,4 +13,10 @@ class Payment extends Model
     'amount',
     'status',
 ];
+    protected function casts(): array
+    {
+        return [
+            'amount' => 'decimal:2',
+        ];
+    }
 }

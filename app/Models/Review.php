@@ -15,4 +15,11 @@ class Review extends Model
 'status', // approved/pending/spam
 'helpful_count',
 ];
+    protected function casts(): array
+    {
+        return [
+            'rating' => 'integer',
+            'helpful_count' => 'integer',
+        ];
+    }
 }
