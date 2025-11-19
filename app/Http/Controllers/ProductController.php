@@ -65,7 +65,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $slug)
     {
-
+        $validated = $request->validate([
+            'name' => 'nullable|string|max:255|min:5',
+            'slug' => 'nullable|string|max:255|unique:products,slug',
+            'description' => 'nullable|string',
+            'price' => 'nullable|numeric|min:0|max:100000',
+            'discount_price' => 'nullable|numeric|min:0|max:100000',
+            'stock' => 'nullable|integer|min:0',
+            'image' => 'nullable|image|max:2048',
+            'status' => 'nullable|boolean',
+        ]);
     }
 
     /**

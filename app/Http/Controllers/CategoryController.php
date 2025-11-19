@@ -58,7 +58,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+    'name' => 'nullable|string|max:255',
+    'slug' => 'nullable|string|max:255|unique:categories,slug',
+    'description' => 'nullable|string|',
+    'status' => 'required|boolean',
+    'image' => 'nullable|string|max:255',
+]);
     }
 
     /**

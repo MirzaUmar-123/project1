@@ -60,7 +60,15 @@ class OrderItemController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+    'user_id' => 'nullable|integer|exists:users,id',
+    'order_number' => 'nullable|string|max:255|unique:orders,order_number',
+    'status' => 'nullable|in:pending,paid,shipped,delivered,cancelled',
+    'total_amount' => 'nullable|numeric|min:0',
+    'payment_method' => 'nullable|string|max:255',
+    'shipping_address' => 'nullable|string',
+    'billing_address' => 'nullable|string',
+        ]);
     }
 
     /**

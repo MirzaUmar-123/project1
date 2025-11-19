@@ -60,7 +60,15 @@ class CouponController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+    'code' => 'nullable|string|max:255|unique:coupons,code',
+    'discount_amount' => 'nullable|numeric|min:0',
+    'description' => 'nullable|string',
+    'expiry_date' => 'nullable|date|after_or_equal:today',
+    'usage_limit' => 'nullable|integer|min:1',
+    'min_order_amount' => 'nullable|integer|min:0',
+    'is_active' => 'required|boolean',
+]);
     }
 
     /**

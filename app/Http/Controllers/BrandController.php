@@ -55,7 +55,10 @@ class BrandController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+        'name' => 'nullable|string|max:255|min:10',
+        'slug' => 'nullable|string|max:255|unique:products,slug',
+        ]);
     }
 
     /**
