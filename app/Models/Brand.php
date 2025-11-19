@@ -13,4 +13,5 @@ class Brand extends Model
 'logo_path',
 'is_active',
 ];
+
 }

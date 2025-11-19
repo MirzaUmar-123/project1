@@ -59,7 +59,14 @@ class ShipmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+    'order_id' => 'nullable|integer|exists:orders,id',
+    'tracking_number' => 'nullable|string|max:255|unique:shipments,tracking_number',
+    'carrier' => 'nullable|string|max:255',
+    'status' => 'nullable|in:pending,shipped,delivered',
+    'shipped_at' => 'nullable|date',
+    'delivered_at' => 'nullable|date|after_or_equal:shipped_at',
+]);
     }
 
     /**

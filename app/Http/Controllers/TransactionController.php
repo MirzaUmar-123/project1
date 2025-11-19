@@ -60,7 +60,15 @@ class TransactionController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+    'user_id' => 'nullable|integer|exists:users,id',
+    'order_id' => 'nullable|integer|exists:orders,id',
+    'amount' => 'nullable|numeric|min:0',
+    'type' => 'nullable|in:charge,refund,payout',
+    'gateway' => 'nullable|string|max:255',
+    'reference' => 'nullable|string|max:255|unique:transactions,reference',
+    'status' => 'nullable|in:pending,completed,failed',
+]);
     }
 
     /**

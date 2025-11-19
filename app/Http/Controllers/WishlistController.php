@@ -55,7 +55,10 @@ class WishlistController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+    'user_id' => 'nullable|integer|exists:users,id',
+    'product_id' => 'nullable|integer|exists:products,id',
+]);
     }
 
     /**
